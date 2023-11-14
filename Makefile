@@ -3,7 +3,7 @@ include .env
 stop_containers:
 	@echo "stopping other docker containers..."
 	if [ $$(docker ps -q) ]; then \
-		echo "found and stopped containers"; \
+		echo "found and stopped containers."; \
 		docker stop $$(docker ps -q); \
 	else \
 		echo "no running containers found."; \
@@ -18,33 +18,33 @@ create_db:
 	docker exec -it ${DB_CONTAINER} bash -c "createdb --username ${DB_USER} --owner ${DB_USER} ${DB_NAME}"
 
 start_db_container:
-	@echo "starting docker container..."
+	@echo "starting docker database container..."
 	docker start ${DB_CONTAINER}
 
 create_db_migration:
-	@echo "creating sqlx migration..."
+	@echo "creating sqlx database migration..."
 	sqlx migrate add -r init
 
 migrate_db_up:
-	@echo "sqlx migrating up..."
+	@echo "sqlx database migration up."
 	sqlx migrate run --database-url "postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=${DB_SSL_MODE}"
 
 migrate_db_down:
-	@echo "sqlx migrating down..."
+	@echo "sqlx database migration down."
 	sqlx migrate revert --database-url "postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=${DB_SSL_MODE}"
 
-go_build:
+build:
 	if [ -f "${BINARY}" ]; then \
 		rm ${BINARY}; \
-		echo "deleted ${BINARY}"; \
+		echo "deleted go ${BINARY}."; \
 	fi
-	@echo "building binary..."
+	@echo "building go alpine..."
 	go build -o ${BINARY} -v ./cmd/api/*.go
 
-go_run: go_build
+run: build
 	./${BINARY}
 
-go_stop:
-	@echo "stopping server..."
+stop:
+	@echo "stopping go api server..."
 	@-pkill -SIGTERM -f ./${BINARY}
-	@echo "server stopped."
+	@echo "go api server stopped."
