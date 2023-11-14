@@ -1,4 +1,4 @@
-module products-api
+module github.com/olasowemimo/products-api
 
 go 1.21.4
 

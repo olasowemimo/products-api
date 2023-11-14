@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 	
-	"products-api/handler"
+	"github.com/olasowemimo/products-api/handler"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"

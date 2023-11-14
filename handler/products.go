@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"products-api/repository"
+	"github.com/olasowemimo/products-api/repository"
 
 	"github.com/go-chi/chi/v5"
 
