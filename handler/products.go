@@ -7,7 +7,8 @@ import (
 
 	"products-api/repository"
 
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
+
 )
 
 type Products struct {
@@ -43,8 +44,7 @@ func (p *Products) AddProduct (rw http.ResponseWriter, r *http.Request) {
 }
 
 func (p *Products) UpdateProduct(rw http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id, err := strconv.Atoi(vars["id"])
+	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
 		http.Error(rw, "Unable to convert id", http.StatusBadRequest)
 		return
